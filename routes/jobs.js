@@ -4,16 +4,15 @@ const { validateJobs, Job } = require("../models/jobs");
 const route = require("express").Router();
 
 route.get("/", async (req, res) => {
-  // let jobs;
-  // if (req.query.search) {
-  //   jobs = await Job.distinct("title", {
-  //     title: { $regex: req.query.search, $options: "i" },
-  //   });
-  // } else {
-  //   jobs = await Job.find();
-  // }
-  res.send("This is response")
-  // res.send(jobs);
+  let jobs;
+  if (req.query.search) {
+    jobs = await Job.distinct("title", {
+      title: { $regex: req.query.search, $options: "i" },
+    });
+  } else {
+    jobs = await Job.find();
+  }
+  res.send(jobs);
 });
 route.get("/find/:query", async (req, res) => {
   let jobs = await Job.find({
